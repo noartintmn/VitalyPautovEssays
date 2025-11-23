@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Литературно-психологический блог</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f8f8;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        nav {
+            margin: 2rem 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            list-style: none;
+            justify-content: center;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #2c3e50;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        main {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 500px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .post-form {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #3498db;
+        }
+        
+        .post-form h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-group select,
+        .form-group textarea,
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 200px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2980b9;
+        }
+        
+        .posts-container {
+            margin-top: 2rem;
+        }
+        
+        .post {
+            background: white;
+            border-left: 4px solid #e74c3c;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .post-theme {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post h3 {
+            margin: 0.5rem 0;
+            color: #2c3e50;
+            font-size: 1.25rem;
+        }
+        
+        .post-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .post-content {
+            margin: 1rem 0;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+        
+        .post-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .delete-btn {
+            background: #e74c3c;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+        
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        
+        .section-description {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .contact-info {
+            margin: 2rem 0;
+        }
+        
+        .contact-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .contact-item h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .links-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .links-category {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .links-category h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+        
+        .links-list {
+            list-style: none;
+        }
+        
+        .links-list li {
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .links-list a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .links-list a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        .link-description {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 0.25rem;
+        }
+        
+        .link-form {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .link-form h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+            }
+            
+            .nav-links a {
+                text-align: center;
+            }
+            
+            .delete-btn {
+                position: static;
+                margin-top: 1rem;
+            }
+            
+            .links-categories {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Литературно-психологический блог</h1>
+        <div class="subtitle">Психологические эссе, литературные разборы, художественные сочинения</div>
+    </header>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-link active" data-page="home">Главная</a></li>
+            <li><a href="#" class="nav-link" data-page="psychology">Психологические эссе</a></li>
+            <li><a href="#" class="nav-link" data-page="psychology-books">О психологической литературе</a></li>
+            <li><a href="#" class="nav-link" data-page="fiction-books">О художественной литературе</a></li>
+            <li><a href="#" class="nav-link" data-page="columns">Газетные колонки</a></li>
+            <li><a href="#" class="nav-link" data-page="creative">Художественные сочинения</a></li>
+            <li><a href="#" class="nav-link" data-page="school">Заметки о работе в школе</a></li>
+            <li><a href="#" class="nav-link" data-page="other">Прочее</a></li>
+            <li><a href="#" class="nav-link" data-page="contacts">Контакты</a></li>
+            <li><a href="#" class="nav-link" data-page="links">Ссылки</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div id="home" class="page active">
+            <div class="section-description">
+                Добро пожаловать! Здесь собраны мои тексты разных жанров: психологические эссе, литературные разборы, художественные произведения и заметки о педагогической работе.
+            </div>
+            
+            <div class="post-form">
+                <h3>Добавить новую запись</h3>
+                <div class="form-group">
+                    <label for="postTheme">Раздел:</label>
+                    <select id="postTheme">
+                        <option value="psychology">Психологические эссе</option>
+                        <option value="psychology-books">О психологической литературе</option>
+                        <option value="fiction-books">О художественной литературе</option>
+                        <option value="columns">Газетные колонки и беллетристика</option>
+                        <option value="creative">Художественные сочинения</option>
+                        <option value="school">Заметки о работе в школе</option>
+                        <option value="other">Прочее</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="postTitle">Заголовок:</label>
+                    <input type="text" id="postTitle" placeholder="Введите заголовок...">
+                </div>
+                <div class="form-group">
+                    <label for="postContent">Текст:</label>
+                    <textarea id="postContent" placeholder="Введите ваш текст здесь..."></textarea>
+                </div>
+                <button onclick="publishPost()">Опубликовать</button>
+            </div>
+            
+            <div id="allPosts">
+                <h3>Все записи</h3>
+                <div id="postsContainer"></div>
+            </div>
+        </div>
+
+        <div id="psychology" class="page">
+            <h2>Психологические эссе</h2>
+            <div class="section-description">
+                Обобщения практического опыта, размышления о психологических феноменах, анализ внутренних процессов.
+            </div>
+            <div id="psychologyPosts" class="posts-container"></div>
+        </div>
+
+        <div id="psychology-books" class="page">
+            <h2>О психологической литературе</h2>
+            <div class="section-description">
+                Отклики на книги, конспекты, разборы психологической литературы.
+            </div>
+            <div id="psychologyBooksPosts" class="posts-container"></div>
+        </div>
+
+        <div id="fiction-books" class="page">
+            <h2>О художественной литературе</h2>
+            <div class="section-description">
+                Отклики на книги, разборы стихотворений, критические заметки, литературоведческие опыты.
+            </div>
+            <div id="fictionBooksPosts" class="posts-container"></div>
+        </div>
+
+        <div id="columns" class="page">
+            <h2>Газетные колонки и беллетристика</h2>
+            <div class="section-description">
+                Публицистические тексты, газетные колонки, короткая проза.
+            </div>
+            <div id="columnsPosts" class="posts-container"></div>
+        </div>
+
+        <div id="creative" class="page">
+            <h2>Художественные сочинения</h2>
+            <div class="section-description">
+                Стихотворения, рассказы, пьесы, художественные зарисовки.
+            </div>
+            <div id="creativePosts" class="posts-container"></div>
+        </div>
+
+        <div id="school" class="page">
+            <h2>Заметки о работе в школе</h2>
+            <div class="section-description">
+                Размышления о педагогической практике, наблюдения за учениками, методические находки.
+            </div>
+            <div id="schoolPosts" class="posts-container"></div>
+        </div>
+
+        <div id="other" class="page">
+            <h2>Прочее</h2>
+            <div class="section-description">
+                Тексты, которые не вошли в другие разделы.
+            </div>
+            <div id="otherPosts" class="posts-container"></div>
+        </div>
+
+        <div id="contacts" class="page">
+            <h2>Контакты</h2>
+            <div class="section-description">
+                Свяжитесь со мной, если хотите обсудить сотрудничество, задать вопрос или поделиться мыслями.
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>Электронная почта</h3>
+                    <p>example@email.com</p>
+                </div>
+                
+                <div class="contact-item">
+                    <h3>Социальные сети</h3>
+                    <p>Telegram: @username</p>
+                    <p>VK: vk.com/username</p>
+                </div>
+                
+                <div class="contact-item">
+                    <h3>Для сотрудничества</h3>
+                    <p>По вопросам публикаций, лекций и консультаций</p>
+                </div>
+                
+                <div class="contact-item">
+                    <h3>Обратная связь</h3>
+                    <p>Буду рад вашим отзывам и предложениям по содержанию блога</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="links" class="page">
+            <h2>Полезные ссылки</h2>
+            <div class="section-description">
+                Ресурсы, которые могут быть интересны в контексте тематики блога.
+            </div>
+            
+            <div class="links-categories">
+                <div class="links-category">
+                    <h3>Психология</h3>
+                    <ul class="links-list">
+                        <li>
+                            <a href="#" target="_blank">Психологический журнал</a>
+                            <div class="link-description">Научные публикации по психологии</div>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">Ассоциация психологов</a>
+                            <div class="link-description">Профессиональное сообщество</div>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">Библиотека психологической литературы</a>
+                            <div class="link-description">Классические и современные работы</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="links-category">
+                    <h3>Литература</h3>
+                    <ul class="links-list">
+                        <li>
+                            <a href="#" target="_blank">Литературный журнал</a>
+                            <div class="link-description">Современная проза и поэзия</div>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">Критические обзоры</a>
+                            <div class="link-description">Анализ современной литературы</div>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">Архив классики</a>
+                            <div class="link-description">Произведения русской и зарубежной классики</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="links-category">
+                    <h3>Образование</h3>
+                    <ul class="links-list">
+                        <li>
+                            <a href="#" target="_blank">Педагогические ресурсы</a>
+                            <div class="link-description">Методические материалы для учителей</div>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">Образовательный портал</a>
+                            <div class="link-description">Новости и статьи об образовании</div>
+                        </li>
+                        <li>
+                            <a href="#" target="_blank">Детская литература</a>
+                            <div class="link-description">Книги для школьного чтения</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="link-form">
+                <h3>Добавить новую ссылку</h3>
+                <div class="form-group">
+                    <label for="linkCategory">Категория:</label>
+                    <select id="linkCategory">
+                        <option value="psychology">Психология</option>
+                        <option value="literature">Литература</option>
+                        <option value="education">Образование</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="linkTitle">Название ссылки:</label>
+                    <input type="text" id="linkTitle" placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <label for="linkUrl">URL:</label>
+                    <input type="text" id="linkUrl" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label for="linkDescription">Описание:</label>
+                    <textarea id="linkDescription" placeholder="Краткое описание..." style="height: 80px;"></textarea>
+                </div>
+                <button onclick="addLink()">Добавить ссылку</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Литературно-психологический блог</p>
+    </footer>
+
+    <script>
+        const sections = {
+            'psychology': 'Психологические эссе',
+            'psychology-books': 'О психологической литературе', 
+            'fiction-books': 'О художественной литературе',
+            'columns': 'Газетные колонки и беллетристика',
+            'creative': 'Художественные сочинения',
+            'school': 'Заметки о работе в школе',
+            'other': 'Прочее'
+        };
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                const pageId = link.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+                
+                if (pageId !== 'home' && pageId !== 'contacts' && pageId !== 'links') {
+                    loadSectionPosts(pageId);
+                } else if (pageId === 'home') {
+                    loadAllPosts();
+                }
+            });
+        });
+
+        function publishPost() {
+            const title = document.getElementById('postTitle').value.trim();
+            const content = document.getElementById('postContent').value.trim();
+            const theme = document.getElementById('postTheme').value;
+            
+            if (!title || !content) {
+                alert('Пожалуйста, заполните заголовок и текст');
+                return;
+            }
+
+            const post = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                theme: theme,
+                themeName: sections[theme],
+                date: new Date().toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+
+            savePost(post);
+            
+            const activePage = document.querySelector('.page.active').id;
+            if (activePage === 'home') {
+                renderPost(post);
+            } else if (activePage === theme) {
+                renderSectionPost(post, theme);
+            }
+            
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postContent').value = '';
+            
+            alert('Запись успешно опубликована в раздел "' + sections[theme] + '"!');
+        }
+
+        function savePost(post) {
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            posts.unshift(post);
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+        }
+
+        function loadAllPosts() {
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+            
+            if (posts.length === 0) {
+                container.innerHTML = '<p>Пока нет записей. Добавьте первую!</p>';
+                return;
+            }
+            
+            posts.forEach(post => renderPost(post));
+        }
+
+        function loadSectionPosts(section) {
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            const sectionPosts = posts.filter(post => post.theme === section);
+            const container = document.getElementById(section + 'Posts');
+            container.innerHTML = '';
+            
+            if (sectionPosts.length === 0) {
+                container.innerHTML = '<p>Пока нет записей в этом разделе.</p>';
+                return;
+            }
+            
+            sectionPosts.forEach(post => renderSectionPost(post, section));
+        }
+
+        function renderPost(post) {
+            const container = document.getElementById('postsContainer');
+            const postElement = createPostElement(post);
+            container.appendChild(postElement);
+        }
+
+        function renderSectionPost(post, section) {
+            const container = document.getElementById(section + 'Posts');
+            const postElement = createPostElement(post);
+            container.appendChild(postElement);
+        }
+
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            postDiv.innerHTML = `
+                <div class="post-theme">${post.themeName}</div>
+                <h3>${post.title}</h3>
+                <div class="post-date">${post.date}</div>
+                <div class="post-content">${formatContent(post.content)}</div>
+                <button class="delete-btn" onclick="deletePost(${post.id})">Удалить</button>
+            `;
+            return postDiv;
+        }
+
+        function formatContent(content) {
+            return content.split('\n\n').map(paragraph => 
+                paragraph.trim() ? `<p>${paragraph.replace(/\n/g, '<br>')}</p>` : ''
+            ).join('');
+        }
+
+        function deletePost(id) {
+            if (!confirm('Вы уверены, что хотите удалить эту запись?')) {
+                return;
+            }
+            
+            let posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            posts = posts.filter(post => post.id !== id);
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+            
+            const activePage = document.querySelector('.page.active').id;
+            if (activePage === 'home') {
+                loadAllPosts();
+            } else if (sections[activePage]) {
+                loadSectionPosts(activePage);
+            }
+        }
+
+        function addLink() {
+            const category = document.getElementById('linkCategory').value;
+            const title = document.getElementById('linkTitle').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            const description = document.getElementById('linkDescription').value.trim();
+            
+            if (!title || !url) {
+                alert('Пожалуйста, заполните название и URL ссылки');
+                return;
+            }
+            
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                alert('Пожалуйста, введите корректный URL (начинающийся с http:// или https://)');
+                return;
+            }
+            
+            const link = {
+                id: Date.now(),
+                category: category,
+                title: title,
+                url: url,
+                description: description
+            };
+            
+            saveLink(link);
+            alert('Ссылка успешно добавлена!');
+            
+            document.getElementById('linkTitle').value = '';
+            document.getElementById('linkUrl').value = '';
+            document.getElementById('linkDescription').value = '';
+        }
+        
+        function saveLink(link) {
+            const links = JSON.parse(localStorage.getItem('blogLinks') || '[]');
+            links.push(link);
+            localStorage.setItem('blogLinks', JSON.stringify(links));
+        }
+        
+        function loadLinks() {
+            // Функция для загрузки ссылок
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllPosts();
+            loadLinks();
+        });
+    </script>
+</body>
+</html>
